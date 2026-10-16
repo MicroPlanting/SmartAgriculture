@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MicroPlanting — Smart plants. A greener tomorrow.</title>
+<meta name="theme-color" content="#06130F"><link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=Inter:wght@400;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head><body>
+<a class="skip" href="#dashboard">Skip to dashboard</a>
+<header class="nav"><a class="brand" href="#home">MICROPLANTING</a>
+<button class="menu" id="menu" aria-expanded="false" aria-controls="links">Menu</button>
+<nav id="links" aria-label="Main"><a href="#home">Home</a><a href="#system">System</a><a href="#dashboard">Live Dashboard</a><a href="#analytics">Analytics</a><a href="#alerts">Alerts</a><a href="#about">About</a></nav>
+<button class="btn ghost" id="authBtn">Sign in</button></header>
+
+<main>
+<section id="home" class="hero"><div class="glow" aria-hidden="true"></div>
+<div class="hero-in"><p class="eyebrow">Smart agriculture · ESP32 · Firebase</p>
+<h1><span class="clip"><span>MICROPLANTING</span></span></h1>
+<p class="tag">SMART PLANTS.<br>A GREENER TOMORROW.</p>
+<p class="lead">MicroPlanting combines environmental sensing, automated watering and real-time digital monitoring in one working system.</p>
+<div class="actions"><a class="btn primary" href="#system">Explore the System</a><a class="btn" href="#dashboard">View Live Dashboard</a><button class="btn ghost" id="heroSound" aria-pressed="false">Enable calm music</button></div>
+<p class="pill" id="heroStatus" role="status"><i></i><span>Connecting…</span></p></div>
+<a class="scroll" href="#system" aria-label="Scroll to the system section"><span></span></a></section>
+
+<section id="system" class="sec"><h2 class="rv">How the system works</h2>
+<p class="rv sub">Three independent flows. The ESP32 handles watering and the buzzer by itself; the website only displays what it reports.</p>
+<div class="flows">
+<ol class="flow rv"><li>Sensors</li><li class="hub">ESP32</li><li>Wi-Fi</li><li>Firebase</li><li>Dashboard</li></ol>
+<ol class="flow rv"><li>Soil sensor</li><li class="hub">ESP32 decision</li><li>Motor driver</li><li>Water pump</li></ol>
+<ol class="flow alarm rv"><li>Temp &gt; 35 °C or gas &gt; 1000</li><li class="hub">ESP32 detects</li><li>Physical buzzer</li></ol></div></section>
+
+<section id="dashboard" class="sec dark"><h2 class="rv">Live dashboard</h2>
+<div class="bar"><p class="pill" id="connPill" role="status"><i></i><span>Connecting…</span></p>
+<p class="mono" id="updated">No data received yet</p><p class="mono" id="hw">Hardware: unknown (no device heartbeat)</p></div>
+<div class="sound" role="group" aria-labelledby="sndT"><h3 id="sndT">Browser sound</h3>
+<button class="btn" id="musicBtn" aria-pressed="false">Calm music: off</button>
+<button class="btn" id="alarmBtn" aria-pressed="false">Alert sound: off</button>
+<button class="btn ghost" id="testBtn">Test alert sound</button>
+<label class="vol">Volume <input id="vol" type="range" min="0" max="100" value="50"></label>
+<p class="note">Browser sound only. It starts after you press a button (browser rule) and never confirms the physical ESP32 buzzer.</p></div>
+<div id="msg" class="msg" role="alert" hidden></div>
+<div id="alert" class="alert" role="alert" hidden><h3><span aria-hidden="true">⚠</span> <span id="alertTitle"></span></h3><ul id="alertList"></ul><p id="buzz" class="mono"></p>
+<p class="mono" id="soundHint"></p></div>
+<p id="recovered" class="ok" role="status" hidden>Readings are back within safe limits.</p>
+<div class="cards">
+<article class="card rv"><h3>Temperature</h3><p class="val" id="vT">—</p><p class="mono" id="sT">Awaiting data</p><p class="note">Emergency above 35 °C</p></article>
+<article class="card rv"><h3>Air humidity</h3><p class="val" id="vH">—</p><p class="mono" id="sH">Awaiting data</p><p class="note">Air humidity, not soil moisture</p></article>
+<article class="card rv"><h3>Soil moisture</h3><p class="val" id="vS">—</p><p class="mono" id="sS">Awaiting data</p><p class="note">DRY at raw ≥ 3500. Percent = inverse of raw.</p></article>
+<article class="card rv"><h3>Gas</h3><p class="val" id="vG">—</p><p class="mono" id="sG">Awaiting data</p><p class="note">Raw reading (no ppm calibration). Emergency above 1000</p></article>
+<article class="card rv"><h3>Pump</h3><p class="val" id="vP">—</p><p class="mono" id="sP">Awaiting data</p><p class="note">Monitoring only. This site cannot switch the pump.</p></article>
+<article class="card rv"><h3>Servo window</h3><p class="val" id="vV">—</p><p class="mono" id="sV">Awaiting data</p><p class="note">Firmware opens to 90° above 80% humidity</p></article></div></section>
+
+<section id="irrigation" class="sec"><h2 class="rv">Intelligent irrigation</h2>
+<p class="sub rv">This scene mirrors the <strong>reported</strong> soil and pump state. It cannot control the pump.</p>
+<figure class="rv scene"><svg id="scene" viewBox="0 0 600 300" role="img" aria-labelledby="sceneT"><title id="sceneT">Irrigation diagram: reservoir, pump, pipe, soil with sensor, plant and ESP32</title>
+<rect id="soil" x="300" y="210" width="260" height="70" rx="10" class="soil"/><path d="M430 210V150M430 170c-30-10-40-30-40-40 25 0 40 15 40 40m0-10c30-10 40-30 40-40-25 0-40 15-40 40" class="plant"/>
+<rect x="500" y="170" width="8" height="60" class="sensor"/><rect x="40" y="40" width="90" height="110" rx="8" class="box"/><text x="85" y="100" class="t">Reservoir</text>
+<rect x="150" y="170" width="70" height="50" rx="8" class="box"/><text x="185" y="200" class="t">Pump</text>
+<path id="pipe" d="M85 150V195H150M220 195H300Q430 195 430 180" class="pipe"/><path id="water" d="M85 150V195H150M220 195H300Q430 195 430 180" class="water"/>
+<rect x="250" y="40" width="110" height="60" rx="8" class="box hub"/><text x="305" y="75" class="t">ESP32</text><path d="M504 170Q504 70 360 70" class="pipe draw"/></svg>
+<figcaption id="sceneC">Awaiting data.</figcaption></figure></section>
+<section id="analytics" class="sec"><h2 class="rv">Analytics</h2>
+<p class="sub" id="histNote">History fills in as readings arrive during this session.</p>
+<div class="charts"><figure class="rv"><canvas id="cT" aria-describedby="dT"></canvas><figcaption id="dT">Temperature (°C): no data yet.</figcaption></figure>
+<figure class="rv"><canvas id="cH" aria-describedby="dH"></canvas><figcaption id="dH">Humidity (%): no data yet.</figcaption></figure>
+<figure class="rv"><canvas id="cS" aria-describedby="dS"></canvas><figcaption id="dS">Soil moisture (%): no data yet.</figcaption></figure>
+<figure class="rv"><canvas id="cG" aria-describedby="dG"></canvas><figcaption id="dG">Gas (raw): no data yet.</figcaption></figure></div></section>
+
+<section id="alerts" class="sec dark"><h2 class="rv">Emergency protection</h2>
+<div class="cols rv"><p>An emergency exists when <strong>temperature &gt; 35 °C</strong> or <strong>raw gas reading &gt; 1000</strong>. Comparisons are strict: 35 °C and a gas reading of 1000 are not emergencies; 36 °C and 1001 are.</p>
+<p>Missing or invalid readings never count as an emergency. Dry soil never triggers the buzzer.</p>
+<p>The ESP32 must use the same limits to sound the physical buzzer. This website only displays and, optionally, beeps in your browser; it cannot confirm the physical buzzer.</p></div></section>
+<section id="about" class="sec dark"><h2 class="rv">ENGINEERED FOR A GREENER TOMORROW</h2>
+<div class="cols rv"><p>Watering by hand is easy to get wrong: too much wastes water, too little stresses the plant. MicroPlanting measures soil moisture with an analog sensor, and an ESP32 switches a pump through an L298N driver when the soil reads dry.</p>
+<p>The ESP32 also reads temperature and humidity (DHT11) and a gas sensor, opens a servo window when the air is very humid, and sounds a buzzer if temperature or gas passes its limit. Readings go to Firebase Realtime Database and appear here after sign-in.</p>
+<p>This is a student project. It makes no claims about water savings or crop yield; its goal is to show how electronics and software work together.</p></div></section>
+</main>
+
+<footer class="foot"><p class="brand">MICROPLANTING</p><p>SMART PLANTS. A GREENER TOMORROW.</p>
+<nav aria-label="Footer"><a href="#home">Back to top</a><a href="#dashboard">Open dashboard</a><a href="#system">System architecture</a><a href="#about">About the project</a></nav></footer>
+
+<dialog id="dlg"><form id="form" method="dialog"><h3>Sign in</h3>
+<label for="em">Email</label><input id="em" type="email" autocomplete="email" required>
+<label for="pw">Password</label><input id="pw" type="password" autocomplete="current-password" required>
+<label class="chk"><input type="checkbox" id="show"> Show password</label>
+<p id="ferr" class="err" role="alert"></p>
+<div class="actions"><button class="btn primary" id="go" type="submit">Sign in</button><button class="btn" type="button" id="cancel">Cancel</button></div></form></dialog>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script type="module" src="script.js"></script>
+</body></html>
